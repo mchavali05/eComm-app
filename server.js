@@ -24,13 +24,24 @@ app.get('/register', function(req, res) {
 	res.sendFile(path.join(__dirname, './public/registration.html'));
 });
 
+app.post('/createAccount', function(req, res) {
+	var query = connection.query(
+	  "INSERT INTO users SET ?",
+	  [req.body],
+	  function(err, response) {
+	    res.redirect('/myAccount');
+	  }
+	);
+});
+
+
 //login route
 app.get('/login', function(req, res) {
 	res.sendFile(path.join(__dirname, './public/login.html'));
 });
 
 //myAccount route
-app.get('/myAccount', function(req, res) {
+app.get('/myaccount', function(req, res) {
 	res.sendFile(path.join(__dirname, './public/myaccount.html'));
 });
 
