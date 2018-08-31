@@ -6,6 +6,8 @@ var bodyParser = require('body-parser');
 //session stuff
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+app.set('view engine','ejs');
+
 
 //allow sessions
 app.use(session({ secret: 'app', cookie: { maxAge: 1*1000*60*60*24*365 }}));
@@ -24,6 +26,14 @@ var connection = mysql.createConnection({
 	user: "root",
 	password: "root",
 	database: "ecomm_db"
+});
+
+app.get('/',function(req,res){
+	res.render('pages/index');
+});
+
+app.get('/signup',function(req,res){
+	res.render('pages/signup');
 });
 
 //registration route
@@ -70,7 +80,10 @@ app.get('/login', function(req, res) {
 
 //myAccount route
 app.get('/myaccount', function(req, res) {
-	res.sendFile(path.join(__dirname, './public/myaccount.html'));
+	//res.sendFile(path.join(__dirname, './public/myaccount.html'));
+	var emailid = req.session.email;
+	//res.send(emailid);
+	res.render('pages/myaccount',req.session);
 });
 
 //product route
