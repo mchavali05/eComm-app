@@ -24,7 +24,7 @@ var connection = mysql.createConnection({
 	host: "localhost",
 	port: 3306,
 	user: "root",
-	password: "password",
+	password: "",
 	database: "ecomm_db"
 });
 
@@ -41,7 +41,6 @@ app.get('/signup',function(req,res){
 });
 
 //registration route
-//login route
 app.get('/register', function(req, res) {
 	res.sendFile(path.join(__dirname, './public/registration.html'));
 });
@@ -61,8 +60,6 @@ app.post('/createAccount', function(req, res) {
 				}else {
 					req.session.userid = resultset[0].id;
 					req.session.email = resultset[0].email;
-					//res.send('you are logged in'+ req.session.user_id);
-					//res.redirect('/myaccount');
 					res.render('pages/myaccount',req.session);
 				}		
 			});
@@ -78,8 +75,6 @@ app.post('/login', function(req, res) {
 		}else {
 			req.session.userid = resultset[0].id;
 			req.session.email = resultset[0].email;
-			//res.send('you are logged in'+ req.session.user_id);
-			//res.redirect('/myaccount');
 			res.render('pages/myaccount',req.session);
 		}		
 	});
@@ -96,20 +91,11 @@ app.get('/getuserinfo', function(req, res) {
 
 //login route
 app.get('/login', function(req, res) {
-	//res.sendFile(path.join(__dirname, './views/pages/login.ejs'));
 	res.render('pages/login');
 });
 
-//myAccount route
-app.get('/myaccount', function(req, res) {
-	//res.sendFile(path.join(__dirname, './public/myaccount.html'));
-	var emailid = req.session.email;
-	//res.send(emailid);
-	res.render('pages/myaccount',req.session);
-});
 
 //product route
-//login route
 app.get('/product', function(req, res) {
 	res.sendFile(path.join(__dirname, './public/product.html'));
 });
