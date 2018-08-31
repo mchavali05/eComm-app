@@ -22,9 +22,9 @@ app.use(bodyParser.urlencoded({
 
 var connection = mysql.createConnection({
 	host: "localhost",
-	port: 8889,
+	port: 3306,
 	user: "root",
-	password: "root",
+	password: "password",
 	database: "ecomm_db"
 });
 
@@ -34,6 +34,10 @@ app.get('/',function(req,res){
 
 app.get('/signup',function(req,res){
 	res.render('pages/signup');
+});
+
+app.get('/signup',function(req,res){
+	res.render('pages/login');
 });
 
 //registration route
@@ -58,10 +62,27 @@ app.post('/createAccount', function(req, res) {
 					req.session.userid = resultset[0].id;
 					req.session.email = resultset[0].email;
 					//res.send('you are logged in'+ req.session.user_id);
-					res.redirect('/myaccount');
+					//res.redirect('/myaccount');
+					res.render('pages/myaccount',req.session);
 				}		
 			});
 		});
+});
+
+app.post('/login', function(req, res) {
+	var query = connection.query("SELECT * FROM USERS WHERE EMAIL = '"+req.body.email+"' AND PASSWORD = '"+req.body.password+"'",function(err,resultset){
+		console.log(query);
+		console.log(err);
+		if (resultset.length == 0){
+			res.sendFile(path.join(__dirname, './public/error.html'));
+		}else {
+			req.session.userid = resultset[0].id;
+			req.session.email = resultset[0].email;
+			//res.send('you are logged in'+ req.session.user_id);
+			//res.redirect('/myaccount');
+			res.render('pages/myaccount',req.session);
+		}		
+	});
 });
 
 app.get('/getuserinfo', function(req, res) {
@@ -75,7 +96,8 @@ app.get('/getuserinfo', function(req, res) {
 
 //login route
 app.get('/login', function(req, res) {
-	res.sendFile(path.join(__dirname, './public/login.html'));
+	//res.sendFile(path.join(__dirname, './views/pages/login.ejs'));
+	res.render('pages/login');
 });
 
 //myAccount route
