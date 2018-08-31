@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+    <header>
+        <% include ../partials/header %>
+    </header>
+    <main>
+        <div class="jumbotron">
+            <form method="post" action="/login" name="login">
+                <label>User Email</label>
+                <input type='text' name='email'>
+                <br>
+                <label>Password</label>
+                <input type='password' name='password' maxlength="8" minlength="6">
+                <br>
+                <button>submit</button>    
+            </form>
+        </div>
+    </main>
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+    
+</body>
+</html>
