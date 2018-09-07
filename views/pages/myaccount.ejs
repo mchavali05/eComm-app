@@ -5,17 +5,17 @@
 </head>
 <body class="container">
     <header>
-        <% include ../partials/header %>
+        <% include ../partials/user_header %>
     </header>
     <main>
         <div class="jumbotron">
                 <div id="username">
-                        user name: <%= email %> 
+                    User name:<span id='uname'><%=ufname%></span> 
                  </div>
 
-                <div name='header'>
+                <!-- <div name='header'>
                         header searach item <a href='/registration.html' >edit profile link</a>
-                </div>
+                </div> -->
                 <div My credit card>
                        My Credit card INFO. 
                 </div>
@@ -30,6 +30,7 @@
     <footer>
         <% include ../partials/footer %>
     </footer>
-    
+   
+
 </body>
 </html>

@@ -5,10 +5,13 @@
 </head>
 <body class="container">
     <header>
-        <% include ../partials/header %>
+        <% include ../partials/user_header %>
     </header>
     <main>
         <div class="jumbotron">
+            <% if(error=='true') {%>
+               <h4 > Error:<%= msg %></h4>
+             <%}%>   
             <form method="post" action="/login" name="login">
                 <label>User Email</label>
                 <input type='text' name='email'>

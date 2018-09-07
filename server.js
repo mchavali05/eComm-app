@@ -22,9 +22,9 @@ app.use(bodyParser.urlencoded({
 
 var connection = mysql.createConnection({
 	host: "localhost",
-	port: 3306,
+	port: 8889,
 	user: "root",
-	password: "",
+	password: "root",
 	database: "ecomm_db"
 });
 
@@ -71,29 +71,44 @@ app.post('/login', function(req, res) {
 		console.log(query);
 		console.log(err);
 		if (resultset.length == 0){
-			res.sendFile(path.join(__dirname, './public/error.html'));
+			res.redirect('/user-error');
 		}else {
 			req.session.userid = resultset[0].id;
+			req.session.ufname = resultset[0].first_name;
 			req.session.email = resultset[0].email;
-			res.render('pages/myaccount',req.session);
+			res.redirect("/user-profile");
 		}		
 	});
 });
-
-app.get('/getuserinfo', function(req, res) {
-	var user_info = {
-		user_id: req.session.userid,
-		user_email: req.session.email
-	}
-
-	res.json();
+app.get('/user-error', function(req, res) {
+	res.render('pages/login',{
+		error:'true',
+		msg:'Invalied Email'
+	});
 });
+
+// app.get('/getuserinfo', function(req, res) {
+// 	var user_info = {
+// 		user_id: req.session.userid,
+// 		user_email: req.session.email
+// 	}
+// 	res.json();
+// });
 
 //login route
 app.get('/login', function(req, res) {
-	res.render('pages/login');
+
+	res.render('pages/login',{
+		error:'false'
+	});
 });
 
+app.get('/user-profile', function(req, res) {
+	res.render('pages/myaccount',{
+		error:'false',
+		ufname: req.session.ufname
+	});
+});
 
 //product route
 app.get('/product', function(req, res) {
@@ -101,3 +116,4 @@ app.get('/product', function(req, res) {
 });
 
 app.listen(3000);
+
