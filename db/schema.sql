@@ -19,11 +19,11 @@ CREATE TABLE users(
 CREATE TABLE items(
     id INT NOT NULL AUTO_INCREMENT,
     item_name VARCHAR(255) NOT NULL,
-    item_image VARCHAR(255) NULL,
+    item_image text NULL,
     item_quantity INT NULL,
     item_color VARCHAR(255) NULL,
     item_size INT NULL,
-    item_cost DECIMAL(10,2) NULL,
+    item_cost VARCHAR(255) NULL,
     PRIMARY KEY (id)
 );
 CREATE TABLE categories(
@@ -51,10 +51,10 @@ CREATE TABLE payment_info(
     id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
     card_type VARCHAR(255) NOT NULL,
-    card_no INT(20) NOT NULL,
+    card_no VARCHAR(20) NOT NULL,
     security_code INT(3) NOT NULL,
-    card_expirty_month INT(2) NOT NULL,
-    card_expirty_year INT(4) NOT NULL,
+    card_expiry_month INT(2) NOT NULL,
+    card_expiry_year INT(4) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
