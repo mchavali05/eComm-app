@@ -110,15 +110,6 @@ app.get('/user-profile', function(req, res) {
 	});
 });
 
-app.get('/rabbit', function(req, res){
-	res.render('pages/rabbit', {
-		likesCarrots: true,
-		name: 'bugs',
-		strength: 'infinite' 
-	});
-});
-
-
 //product route
 app.get('/product', function(req, res) {
 	res.sendFile(path.join(__dirname, './public/product.html'));
