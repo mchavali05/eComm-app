@@ -1,14 +1,15 @@
 $.ajax({
 	url: '/getuserinfo',
 	method: 'GET'
-}).then(function(data){
-	var p, ob, necc;
-	for (var i=0; i<data.length; i++){
-		ob = data[i];
-		p = $('<p>');
-		necc = (ob.neccessity ? 'needed' : 'not needed');
-		p.text(ob.item + ' - ' + necc + ' - ' + ob.url + ob.cost);
-
-		$('body').append(p);
-	}
+}).then(function(data){ 
+	alert(data.user_id);
+	var span_username = $('#uname');
+	span_username.text(data.user_id);
+	$('username').append(span_username) ;
 });
+
+
+// var user_info = {
+// 	user_id: req.session.userid,
+// 	user_email: req.session.email
+// }
