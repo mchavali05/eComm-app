@@ -70,6 +70,12 @@ app.post('/login', function(req, res) {
 	var query = connection.query("SELECT * FROM USERS WHERE EMAIL = '"+req.body.email+"' AND PASSWORD = '"+req.body.password+"'",function(err,resultset){
 		console.log(query);
 		console.log(err);
+		if (resultset[0].email!=req.body.email){
+			res.render('pages/login',{
+                error:'true',
+                msg:'Invalid Email'
+            });
+		}
 		if (resultset.length == 0){
 			res.sendFile(path.join(__dirname, './public/error.html'));
 		}else {
@@ -78,6 +84,7 @@ app.post('/login', function(req, res) {
 			res.render('pages/myaccount',req.session);
 		}		
 	});
+
 });
 
 app.get('/getuserinfo', function(req, res) {

@@ -9,6 +9,9 @@
     </header>
     <main>
         <div class="jumbotron">
+            <% if(error=='true') {%>
+              <h4 style="font-color:red"> Error:<%= msg %></h4>
+            <%}%>
             <form method="post" action="/login" name="login">
                 <label>User Email</label>
                 <input type='text' name='email'>
