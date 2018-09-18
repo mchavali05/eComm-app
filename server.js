@@ -33,37 +33,83 @@ app.get('/',function(req,res){
 });
 
 app.get('/signup',function(req,res){
-	res.render('pages/signup');
+	res.render('pages/signup',{
+		error:'false'
+	});
 });
 
-app.get('/signup',function(req,res){
-	res.render('pages/login');
-});
+// app.get('/signup',function(req,res){
+// 	res.render('pages/login');
+// });
 
 //registration route
 app.get('/register', function(req, res) {
 	res.sendFile(path.join(__dirname, './public/registration.html'));
 });
 
-app.post('/createAccount', function(req, res) {
-	var query = connection.query(
-	  "INSERT INTO users SET ?",
-	  [req.body],
-	  function(err, results) {
-		console.log(err);
+// app.post('/createAccount', function(req, res) {
+// 	var query = connection.query(
+// 	  "INSERT INTO users SET ?",
+// 	  [req.body],
+// 	  function(err, results) {
+// 		console.log(err);
 
-			var query = connection.query("SELECT * FROM USERS WHERE EMAIL = '"+req.body.email+"'",function(err,resultset){
-				console.log(query);
+// 			var query = connection.query("SELECT * FROM USERS WHERE EMAIL = '"+req.body.email+"'",function(err,resultset){
+// 				console.log(query);
+// 				console.log(err);
+// 				if (resultset.length == 0){
+// 					res.sendFile(path.join(__dirname, './public/error.html'));
+// 				}else {
+// 					req.session.userid = resultset[0].id;
+// 					req.session.email = resultset[0].email;
+// 					res.render('pages/myaccount',req.session);
+// 				}		
+// 			});
+// 		});
+// });
+
+app.post('/createAccount', function(req, res) {
+	 connection.query("SELECT email FROM users", function(err, results){
+	 	console.log(results);
+	 	var emailInUse = false;
+	 	for (i=0; i<results.length; i++){
+	 		if(results[i].email == req.body.email){
+	 			emailInUse = true;
+	 		}
+	 	}
+	 	if (emailInUse == false){
+	 		var query = connection.query(
+			  "INSERT INTO users SET ?",
+			  [req.body],
+			  function(err, results) {
 				console.log(err);
-				if (resultset.length == 0){
-					res.sendFile(path.join(__dirname, './public/error.html'));
-				}else {
-					req.session.userid = resultset[0].id;
-					req.session.email = resultset[0].email;
-					res.render('pages/myaccount',req.session);
-				}		
-			});
-		});
+
+					var query = connection.query("SELECT * FROM USERS WHERE EMAIL = '"+req.body.email+"'",function(err,resultset){
+						console.log(query);
+						console.log(err);
+						if (resultset.length == 0){
+							res.sendFile(path.join(__dirname, './public/error.html'));
+						}else {
+							req.session.userid = resultset[0].id;
+							req.session.email = resultset[0].email;
+							res.render('pages/myaccount',req.session);
+						}		
+					});
+				});	
+	 	} else{
+	 		console.log("email already in use");
+	 		//res.render('pages/signup',req.session);
+	 		//res.render("pages/signup", {message: "Email already in use"});
+	 		res.redirect('/signup-error');
+	 	}
+	 })	
+});
+
+app.get('/signup-error', function(req, res) {
+	res.render('pages/signup',{
+		error:'true',
+		msg:'Email already in use'
+	});
 });
 
 app.post('/login', function(req, res) {
@@ -80,6 +126,7 @@ app.post('/login', function(req, res) {
 		}		
 	});
 });
+
 app.get('/user-error', function(req, res) {
 	res.render('pages/login',{
 		error:'true',
