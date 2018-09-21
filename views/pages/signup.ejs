@@ -8,7 +8,12 @@
         <% include ../partials/header %>
     </header>
     <main>
+        
+        
         <div class="jumbotron">
+                <% if(error=='true') {%>
+                    <h4 > Error:<%= msg %></h4>
+                <%}%> 
                 <form method="post" action="/createAccount" name='registration'>
                     <div>
                         <label>First Name</label>
